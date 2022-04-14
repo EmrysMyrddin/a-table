@@ -78,7 +78,8 @@ function MealList() {
               {meals.map(meal => (
                 <li key={meal.id}>
                   {meal.quantity} ml à{' '}
-                  {meal.date.toLocaleString('fr-FR', {timeStyle: "short", timeZone: "Europe/Paris"})}
+                  {meal.date.toLocaleString('fr-FR', {timeStyle: "short", timeZone: "Europe/Paris"})}{' '}
+                  <DeleteMeal id={meal.id}/>
                 </li>
               ))}
             </ul>
@@ -90,4 +91,16 @@ function MealList() {
   )
 }
 
+
+function DeleteMeal({ id }) {
+  const [{ fetching }, deleteMeal] = useMutation(/* GraphQL */`
+    mutation delete_meal($id: uuid!) {
+      delete_meals_by_pk(id: $id) {
+        id
+      }
+    }
+  `)
+  
+  return <button disabled={fetching} onClick={() => deleteMeal({ id })}>🗑</button>
+}
 export default App;
