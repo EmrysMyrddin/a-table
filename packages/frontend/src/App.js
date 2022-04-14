@@ -54,15 +54,20 @@ function MealList() {
   
   const lastMeal = last(allMeals)
   
-  
   return (
     <>
-      <p>Dernier repas: {lastMeal.quantity} ml à <strong>{
-        lastMeal.date.toLocaleString('fr-FR', {
-          timeStyle: "short",
-          timeZone: "Europe/Paris"
-        })
-      }</strong></p>
+      <p>Dernier repas: {lastMeal
+        ? (
+          <>{lastMeal.quantity} ml à <strong>{
+              lastMeal.date.toLocaleString('fr-FR', {
+              timeStyle: "short",
+              timeZone: "Europe/Paris"
+            })}
+          }</strong></>
+        ) : (
+          "Pas encore de repas"
+        )}
+      </p>
       <ul>
         {reverse(Object.entries(dates)).map(([date, meals]) => (
           <li key={date}>
