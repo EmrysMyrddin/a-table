@@ -28,7 +28,7 @@ function AddMeal() {
     await addMeal({quantity: e.target.quantity.value, date: e.target.date.value })
     e.target.reset()
   }}>
-    <input type="number" name="quantity" placeholder="Quantité" required/>
+    <input type="number" name="quantity" placeholder="Quantité" required style={{width: "75px"}}/>
     <input type="datetime-local" name="date" required/>
     <button type="submit" disabled={fetching}>Ajouter</button>
   </form>
