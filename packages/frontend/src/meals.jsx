@@ -43,10 +43,7 @@ export function LastMeal({meal}) {
     <p>
       Dernier repas: {meal.quantity} ml à{' '}
       <strong>
-        {meal.date.toLocaleString('fr-FR', {
-          timeStyle: "short",
-          timeZone: "Europe/Paris"
-        })}
+        {formatDateTime(start)}
       </strong>{' '}
       (il y a <strong>{timeSinceLastMeal.hours}h{timeSinceLastMeal.minutes}</strong>)
     </p>
