@@ -62,7 +62,7 @@ export function DeleteMeal({id}) {
     }
   `)
   
-  return <button disabled={fetching} onClick={() => deleteMeal({id})}>🗑</button>
+  return <button disabled={fetching} onClick={() => window.confirm("Salade bien sûre ?") && deleteMeal({id})}>🗑</button>
 }
 
 export function Meal({event}) {
