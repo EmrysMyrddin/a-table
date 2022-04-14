@@ -1,0 +1,19 @@
+{
+  "name": "@a-table/server",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "v.cocaud@gmail.com",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "fastify": "^3.28.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "start": "node --experimental-fetch .",
+    "dev": "nodemon --experimental-fetch ."
+  }
+}

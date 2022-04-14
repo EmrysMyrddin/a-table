@@ -1,0 +1,16 @@
+{
+  "name": "a-table",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "yarn@3.2.0",
+  "scripts": {
+    "start": "yarn workspace @a-table/server start",
+    "dev": "yarn workspace @a-table/server dev",
+    "build": "yarn workspaces foreach run build",
+    "deploy": "caprover deploy -d"
+  }
+}
