@@ -73,7 +73,7 @@ function MealList() {
       <ul>
         {reverse(Object.entries(dates)).map(([date, meals]) => (
           <li key={date}>
-            {date} : Total de {sumBy(meals, 'quantity')} ml (moy. {meanBy(meals, 'quantity')} ml)
+            {date} : Total de {sumBy(meals, 'quantity')} ml (moy. {meanBy(meals, 'quantity').toLocaleString('fr-FR', {maximumFractionDigits: 2})} ml)
             <ul>
               {meals.map(meal => (
                 <li key={meal.id}>
