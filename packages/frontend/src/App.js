@@ -63,7 +63,7 @@ function MealList() {
               timeStyle: "short",
               timeZone: "Europe/Paris"
             })}
-          }</strong></>
+          </strong></>
         ) : (
           "Pas encore de repas"
         )}
