@@ -4,6 +4,9 @@ import {intervalToDuration} from "date-fns";
 import {meanBy, sumBy} from "lodash";
 import {formatDateTime} from "./utils";
 
+const min_daily_meal_target = 420
+const max_daily_meal_target = 540
+
 export function AddMeal() {
   const [{fetching}, addMeal] = useMutation(/* GraphQL */ `
     mutation insert_meal($quantity: Int!, $date: timestamptz) {
@@ -73,11 +76,23 @@ export function Meal({event}) {
 }
 
 export function MealDaySummary({meals, date}) {
+  const sum = sumBy(meals, 'quantity')
   return (
     <>
-      {date} : {sumBy(meals, 'quantity')} ml
-      ({meals.length} 🍼 | 📈 {formatNumber(meanBy(meals, 'quantity'))} ml )
+      {date} : {sum} ml
+      (
+        {meals.length} 🍼
+        | 📈 {formatNumber(sum / meals.length)} ml
+        | 🔽 <Target target={min_daily_meal_target} value={sum}/>{' '}
+        | 🔼 <Target target={max_daily_meal_target} value={sum}/>
+      )
     </>
+  )
+}
+
+function Target({target, value}) {
+  return (
+    <span style={{color: value > target ? 'green' : 'red'}}>{Math.abs(target - value)}</span>
   )
 }
 
