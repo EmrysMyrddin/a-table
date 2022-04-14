@@ -47,16 +47,18 @@ function Tracker() {
   return (
     <>
       <LastMeal meal={last(data.meals)} />
-      <ul>
-        {reverse(Object.entries(dates)).map(([date, events]) => (
+      <ul style={{listStyleType: 'none'}}>
+        {reverse(Object.entries(dates)).map(([date, events], i) => (
           <li key={date}>
-            <MealDaySummary meals={filter(events, { type: 'meal' })} date={date}/>
-            <ul style={{listStyleType: 'none'}}>
-              {events.map(event => {
-                const Component = eventComponents[event.type]
-                return <Component event={event}/>
-              })}
-            </ul>
+            <details open={i === 0}>
+              <summary><MealDaySummary meals={filter(events, { type: 'meal' })} date={date}/></summary>
+              <ul style={{listStyleType: 'none'}}>
+                {events.map(event => {
+                  const Component = eventComponents[event.type]
+                  return <Component event={event}/>
+                })}
+              </ul>
+            </details>
             <br />
           </li>
         ))}
