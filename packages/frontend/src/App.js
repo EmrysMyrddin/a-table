@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
 import {useMutation, useQuery} from "urql";
 import {groupBy, last, reverse, sumBy} from "lodash";
 
@@ -17,7 +15,7 @@ function App() {
 }
 
 function AddMeal() {
-  const [, addMeal] = useMutation(/* GraphQL */ `
+  const [{ fetching }, addMeal] = useMutation(/* GraphQL */ `
     mutation insert_meal($quantity: Int!, $date: timestamptz) {
       insert_meals_one(object: { quantity: $quantity, date: $date }) {
         id
@@ -27,12 +25,12 @@ function AddMeal() {
   
   return <form onSubmit={async (e) => {
     e.preventDefault()
-    const result = await addMeal({quantity: e.target.quantity.value, date: e.target.date.value })
-    console.log(result)
+    await addMeal({quantity: e.target.quantity.value, date: e.target.date.value })
+    e.target.reset()
   }}>
-    <input type="number" name="quantity" placeholder="Quantité"/>
-    <input type="datetime-local" name="date" defaultValue={new Date().toISOString()}/>
-    <button type="submit">Ajouter</button>
+    <input type="number" name="quantity" placeholder="Quantité" required/>
+    <input type="datetime-local" name="date" required/>
+    <button type="submit" disabled={fetching}>Ajouter</button>
   </form>
 }
 
@@ -59,7 +57,7 @@ function MealList() {
   
   return (
     <>
-      <p>Dernier repas: {lastMeal.quantity} à <strong>{
+      <p>Dernier repas: {lastMeal.quantity} ml à <strong>{
         lastMeal.date.toLocaleString('fr-FR', {
           timeStyle: "short",
           timeZone: "Europe/Paris"
@@ -72,7 +70,7 @@ function MealList() {
             <ul>
               {meals.map(meal => (
                 <li key={meal.id}>
-                  {meal.quantity} à{' '}
+                  {meal.quantity} ml à{' '}
                   {meal.date.toLocaleString('fr-FR', {timeStyle: "short", timeZone: "Europe/Paris"})}
                 </li>
               ))}
