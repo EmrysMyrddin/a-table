@@ -1,5 +1,6 @@
 import {useMutation, useQuery} from "urql";
-import {groupBy, last, reverse, sumBy} from "lodash";
+import {groupBy, last, reverse, sumBy, meanBy} from "lodash";
+import { intervalToDuration, formatDuration } from 'date-fns'
 
 function App() {
   return (
@@ -62,8 +63,9 @@ function MealList() {
               lastMeal.date.toLocaleString('fr-FR', {
               timeStyle: "short",
               timeZone: "Europe/Paris"
-            })}
-          </strong></>
+              })}</strong>{' '}
+            (il y a <strong>{formatDuration(intervalToDuration({ start: lastMeal.date, end: new Date()}))}</strong>)
+          </>
         ) : (
           "Pas encore de repas"
         )}
@@ -71,7 +73,7 @@ function MealList() {
       <ul>
         {reverse(Object.entries(dates)).map(([date, meals]) => (
           <li key={date}>
-            {date} : Total de {sumBy(meals, 'quantity')} ml
+            {date} : Total de {sumBy(meals, 'quantity')} ml (moy. {meanBy(meals, 'quantity')} ml)
             <ul>
               {meals.map(meal => (
                 <li key={meal.id}>

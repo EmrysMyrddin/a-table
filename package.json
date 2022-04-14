@@ -12,5 +12,8 @@
     "dev": "yarn workspace @a-table/server dev",
     "build": "yarn workspaces foreach run build",
     "deploy": "caprover deploy -d"
+  },
+  "dependencies": {
+    "date-fns": "^2.28.0"
   }
 }
