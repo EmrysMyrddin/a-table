@@ -25,7 +25,7 @@ function AddMeal() {
   
   return <form onSubmit={async (e) => {
     e.preventDefault()
-    await addMeal({quantity: e.target.quantity.value, date: e.target.date.value })
+    await addMeal({quantity: e.target.quantity.value, date: new Date(e.target.date.value) })
     e.target.reset()
   }}>
     <input type="number" name="quantity" placeholder="Quantité" required style={{width: "75px"}}/>
