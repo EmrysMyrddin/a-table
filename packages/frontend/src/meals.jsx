@@ -79,13 +79,12 @@ export function MealDaySummary({meals, date}) {
   const sum = sumBy(meals, 'quantity')
   return (
     <>
-      {date} : {sum} ml
-      (
-        {meals.length} 🍼
-        | 📈 {formatNumber(sum / meals.length)} ml
-        | 🔽 <Target target={min_daily_meal_target} value={sum}/>{' '}
-        | 🔼 <Target target={max_daily_meal_target} value={sum}/>
-      )
+      {date} :
+      📊 {sum} ml
+      | 🍼 {meals.length}{' '}
+      | 📈 {formatNumber(sum / meals.length)} ml
+      | 🔽 <Target target={min_daily_meal_target} value={sum}/> ml
+      | 🔼 <Target target={max_daily_meal_target} value={sum}/> ml
     </>
   )
 }
