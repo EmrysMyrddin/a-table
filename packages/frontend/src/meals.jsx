@@ -48,7 +48,7 @@ export function LastMeal({meal}) {
       <strong>
         {formatDateTime(start)}
       </strong>{' '}
-      (il y a <strong>{timeSinceLastMeal.hours}h{timeSinceLastMeal.minutes}</strong>)
+      (il y a <strong>{timeSinceLastMeal.hours}h{timeSinceLastMeal.minutes.toString().padStart(2, '0')}</strong>)
     </p>
   )
 }
@@ -79,7 +79,7 @@ export function MealDaySummary({meals, date}) {
   const sum = sumBy(meals, 'quantity')
   return (
     <>
-      {date} :
+      {date} :<br/>
       📊 {sum} ml
       | 🍼 {meals.length}{' '}
       | 📈 {formatNumber(sum / meals.length)} ml
@@ -96,5 +96,5 @@ function Target({target, value}) {
 }
 
 function formatNumber(number){
-  return (number || 0).toLocaleString('fr-FR', {maximumFractionDigits: 2})
+  return (number || 0).toLocaleString('fr-FR', {maximumFractionDigits: 0})
 }
