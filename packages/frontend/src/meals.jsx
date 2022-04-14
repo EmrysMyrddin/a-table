@@ -65,10 +65,9 @@ export function DeleteMeal({id}) {
 export function Meal({event}) {
   return (
     <li key={event.id}>
-      🍼&nbsp;&nbsp;
-      {event.quantity} ml à{' '}
+      <DeleteMeal id={event.id}/>&nbsp;&nbsp;🍼&nbsp;&nbsp;
+      <span style={{width: '1.5em', display: 'inline-block', textAlign: 'end'}}>{event.quantity}</span> ml à{' '}
       {formatDateTime(event.date)}{' '}
-      &nbsp;&nbsp;<DeleteMeal id={event.id}/>
     </li>
   )
 }
@@ -77,8 +76,11 @@ export function MealDaySummary({meals, date}) {
   return (
     <>
       {date} : {sumBy(meals, 'quantity')} ml
-      (moy. {(meanBy(meals, 'quantity') || 0).toLocaleString('fr-FR', {maximumFractionDigits: 2})} ml
-      | {meals.length} biberons)
+      ({meals.length} 🍼 | 📈 {formatNumber(meanBy(meals, 'quantity'))} ml )
     </>
   )
+}
+
+function formatNumber(number){
+  return (number || 0).toLocaleString('fr-FR', {maximumFractionDigits: 2})
 }

@@ -36,10 +36,9 @@ export function DeleteMedication({id}) {
 export function Medication({event}) {
   return (
     <li key={event.id}>
-      💊&nbsp;&nbsp;
+      <DeleteMedication id={event.id}/>&nbsp;&nbsp;💊&nbsp;&nbsp;
       {event.medication} à{' '}
       {formatDateTime(event.date)}{' '}
-      &nbsp;&nbsp;<DeleteMedication id={event.id}/>
     </li>
   )
 }

@@ -41,10 +41,9 @@ export function DeletePoop({id}) {
 export function Poop({event}) {
   return (
     <li key={event.id}>
-      💩&nbsp;&nbsp;
+      <DeletePoop id={event.id}/>&nbsp;&nbsp;💩&nbsp;&nbsp;
       {event.quantity} à{' '}
       {formatDateTime(event.date)}{' '}
-      &nbsp;&nbsp;<DeletePoop id={event.id}/>
     </li>
   )
 }
