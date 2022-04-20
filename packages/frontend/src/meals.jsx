@@ -1,7 +1,7 @@
 import {useMutation} from "urql";
 import {useEffect, useState} from "react";
 import {intervalToDuration} from "date-fns";
-import {meanBy, sumBy} from "lodash";
+import {sumBy} from "lodash";
 import {formatDateTime} from "./utils";
 
 const min_daily_meal_target = 420
@@ -66,11 +66,18 @@ export function DeleteMeal({id}) {
 }
 
 export function Meal({event}) {
+  const {sincePrevious} = event
   return (
     <li key={event.id}>
       <DeleteMeal id={event.id}/>&nbsp;&nbsp;🍼&nbsp;&nbsp;
       <span style={{width: '1.5em', display: 'inline-block', textAlign: 'end'}}>{event.quantity}</span> ml à{' '}
       {formatDateTime(event.date)}{' '}
+      {sincePrevious && (
+        <>
+          ({sincePrevious.hours}h{event.sincePrevious.minutes.toString().padStart(2, '0')})
+        </>
+      )}
+      
     </li>
   )
 }

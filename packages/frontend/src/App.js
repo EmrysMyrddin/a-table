@@ -1,9 +1,10 @@
 import {useQuery} from "urql";
-import {filter, groupBy, last, orderBy, reverse, sortBy} from "lodash";
+import {filter, groupBy, last, orderBy, reverse} from "lodash";
 import {AddMeal, LastMeal, Meal, MealDaySummary} from "./meals";
 import {AddPoop, Poop} from "./poops";
 import {AddMedication, Medication} from "./medications";
 import {formatDate} from "./utils";
+import {intervalToDuration} from "date-fns";
 
 function App() {
   return (
@@ -35,7 +36,14 @@ function Tracker() {
   
   const allEvents = orderBy(
     [
-      ...data.meals.map(meal => ({...meal, type: 'meal'})),
+      ...data.meals.map((meal, i) => {
+        const previous = data.meals[i-1]
+        return ({
+          ...meal,
+          type: 'meal',
+          sincePrevious: previous && intervalToDuration({start: new Date(previous.date), end: new Date(meal.date)})
+        });
+      }),
       ...data.medications.map(medication => ({...medication, type: 'medication'})),
       ...data.poops.map(poop => ({...poop, type: 'poop'}))
     ],
@@ -53,7 +61,7 @@ function Tracker() {
           <ul style={{listStyleType: 'none'}}>
             {events.map(event => {
               const Component = eventComponents[event.type]
-              return <Component event={event}/>
+              return <Component event={event} key={event.id}/>
             })}
           </ul>
         </details>
