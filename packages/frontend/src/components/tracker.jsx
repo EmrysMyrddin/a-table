@@ -1,29 +1,13 @@
+import {LastMeal, Meal, MealDaySummary} from "./meals";
+import {Medication} from "./medications";
+import {Poop} from "./poops";
 import {useQuery} from "urql";
 import {filter, groupBy, last, orderBy, reverse} from "lodash";
-import {AddMeal, LastMeal, Meal, MealDaySummary} from "./meals";
-import {AddPoop, Poop} from "./poops";
-import {AddMedication, Medication} from "./medications";
-import {formatDate} from "./utils";
 import {intervalToDuration} from "date-fns";
+import {formatDate} from "../utils";
 
-function App() {
-  return (
-    <>
-      <h1>Le tracker de la Loupiote</h1>
-      
-      <AddMeal/>
-      <AddMedication />
-      <AddPoop />
-      
-      <h2>Tracking</h2>
-      <Tracker />
-    </>
-  );
-}
-
-
-function Tracker() {
-  const [{ data, fetching, error }] = useQuery({
+export function Tracker() {
+  const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos{
       meals { id, date, quantity }
       medications { id, date, medication }
@@ -31,13 +15,13 @@ function Tracker() {
     }`
   })
   
-  if(fetching) return <p>chargement...</p>
-  if(error) return <p>Erreur : {error.message}</p>
+  if (fetching) return <p>chargement...</p>
+  if (error) return <p>Erreur : {error.message}</p>
   
   const allEvents = orderBy(
     [
       ...data.meals.map((meal, i) => {
-        const previous = data.meals[i-1]
+        const previous = data.meals[i - 1]
         return ({
           ...meal,
           type: 'meal',
@@ -54,10 +38,10 @@ function Tracker() {
   
   return (
     <>
-      <LastMeal meal={last(data.meals)} />
+      <LastMeal meal={last(data.meals)}/>
       {reverse(Object.entries(dates)).map(([date, events], i) => (
         <details open={i === 0} key={date} style={{marginBottom: '1em'}}>
-          <summary><MealDaySummary meals={filter(events, { type: 'meal' })} date={date}/></summary>
+          <summary><MealDaySummary meals={filter(events, {type: 'meal'})} date={date}/></summary>
           <ul style={{listStyleType: 'none'}}>
             {events.map(event => {
               const Component = eventComponents[event.type]
@@ -75,5 +59,3 @@ const eventComponents = {
   medication: Medication,
   poop: Poop,
 }
-
-export default App;

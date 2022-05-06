@@ -1,8 +1,8 @@
 import {useMutation} from "urql";
 import {useEffect, useState} from "react";
-import {intervalToDuration, isAfter, isBefore} from "date-fns";
+import {intervalToDuration, isAfter} from "date-fns";
 import {sumBy} from "lodash";
-import {formatDateTime} from "./utils";
+import {formatDateTime} from "../utils";
 
 const min_daily_meal_target = 420
 

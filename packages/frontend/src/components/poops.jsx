@@ -1,5 +1,5 @@
 import {useMutation} from "urql";
-import {formatDateTime} from "./utils";
+import {formatDateTime} from "../utils";
 
 export function AddPoop() {
   const [{fetching}, addPoop] = useMutation(/* GraphQL */ `
