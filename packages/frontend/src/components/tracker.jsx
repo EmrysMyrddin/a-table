@@ -2,7 +2,7 @@ import {LastMeal, Meal, MealDaySummary} from "./meals";
 import {Medication} from "./medications";
 import {Poop} from "./poops";
 import {useQuery} from "urql";
-import {filter, groupBy, last, orderBy, reverse} from "lodash";
+import {filter, findLast, groupBy, orderBy, reverse} from "lodash";
 import {intervalToDuration} from "date-fns";
 import {formatDate} from "../utils";
 
@@ -38,7 +38,7 @@ export function Tracker() {
   
   return (
     <>
-      <LastMeal meal={last(data.meals)}/>
+      <LastMeal meal={findLast(allEvents, {type: "meal"})}/>
       {reverse(Object.entries(dates)).map(([date, events], i) => (
         <details open={i === 0} key={date} style={{marginBottom: '1em'}}>
           <summary><MealDaySummary meals={filter(events, {type: 'meal'})} date={date}/></summary>
