@@ -4,9 +4,13 @@ import {intervalToDuration, isAfter} from "date-fns";
 import {sumBy} from "lodash";
 import {formatDateTime} from "../utils";
 
-const min_daily_meal_target = 420
+export const min_daily_meal_target = 420
+export function maxTarget(date) {
+  const { target } = maxTargets.find(({ until }) => !date || isAfter(until, date))
+  return target
+}
 
-const maxTargets = [
+export const maxTargets = [
   { until: new Date("2022-04-25"), target: 6 * (90 + 3 * 4) },  // 0-1 mois
   { until: new Date("2022-05-25"), target: 6 * (120 + 4 * 4) }, // 1-2 mois
   { until: new Date("2022-06-25"), target: 5 * (150 + 5 * 4) }, // 2-3 mois
@@ -91,7 +95,6 @@ export function Meal({event}) {
 
 export function MealDaySummary({meals, date}) {
   const sum = sumBy(meals, 'quantity')
-  const { target: maxTarget } = maxTargets.find(({ until }) => meals.length === 0 || isAfter(until, meals[0].date))
   return (
     <>
       {date} :<br/>
@@ -99,7 +102,7 @@ export function MealDaySummary({meals, date}) {
       | 🍼 {meals.length}{' '}
       | 📈 {formatNumber(sum / meals.length)} ml
       | 🔽 <Target target={min_daily_meal_target} value={sum}/> ml
-      | 🔼 <Target target={maxTarget} value={sum}/> ml
+      | 🔼 <Target target={maxTarget(meals[0]?.date)} value={sum}/> ml
     </>
   )
 }

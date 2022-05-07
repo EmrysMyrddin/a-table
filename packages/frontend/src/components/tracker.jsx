@@ -1,4 +1,4 @@
-import {LastMeal, Meal, MealDaySummary} from "./meals";
+import {LastMeal, maxTarget, Meal, MealDaySummary, min_daily_meal_target} from "./meals";
 import {Medication} from "./medications";
 import {Poop} from "./poops";
 import {useQuery} from "urql";
@@ -39,6 +39,7 @@ export function Tracker() {
   return (
     <>
       <LastMeal meal={findLast(allEvents, {type: "meal"})}/>
+      <p>Objectifs: entre {min_daily_meal_target} et {maxTarget(new Date())}</p>
       {reverse(Object.entries(dates)).map(([date, events], i) => (
         <details open={i === 0} key={date} style={{marginBottom: '1em'}}>
           <summary><MealDaySummary meals={filter(events, {type: 'meal'})} date={date}/></summary>
