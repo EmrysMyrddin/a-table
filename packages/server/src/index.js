@@ -18,7 +18,9 @@ app.register(FastifyStatic, {
 })
 
 app.get('/*', function (req, reply) {
-  console.log(path.join(buildPath, 'index.html'))
+  if(req.url.startsWith("/static/")) { // We don't want to have a bad cached static file
+    return reply.status(404).send('404')
+  }
   return reply.sendFile('index.html', { cacheControl: false }) // overriding the options disabling cache-control headers
 })
 

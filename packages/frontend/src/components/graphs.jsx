@@ -76,12 +76,10 @@ function DailySumGraph({ mealsByDate, smoothSpan }) {
       <h3>Total journalier</h3>
       <ResponsiveLine
         {...lineConfig}
+        {...timeScale}
         data={data}
-        xFormat="time:%d/%m/%Y"
         yFormat=">-.0f"
         yScale={{type: 'linear', min: 'auto'}}
-        xScale={{type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day'}}
-        axisBottom={{format: '%b %d', tickValues: 'every 4 days'}}
         markers={[
           {axis: 'y', value: min_daily_meal_target, lineStyle: { stroke: '#b22925' }, legend: 'minimum'},
           {axis: 'y', value: maxTarget(new Date()), lineStyle: { stroke: '#59b225' }, legend: 'objectif'}
@@ -107,11 +105,9 @@ function DailyMeanGraph({ mealsByDate, smoothSpan }) {
       <ResponsiveLine
         {...lineConfig}
         data={data}
-        xFormat="time:%d/%m/%Y"
         yFormat=">-.0f"
         yScale={{type: 'linear', min: 'auto'}}
-        xScale={{type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day'}}
-        axisBottom={{format: '%b %d', tickValues: 'every 4 days',}}
+        {...timeScale}
       />
     </div>
   )
@@ -133,11 +129,9 @@ function MealNumberGraph({ mealsByDate, smoothSpan }) {
       <ResponsiveLine
         {...lineConfig}
         data={data}
-        xFormat="time:%d/%m/%Y"
         yFormat=">-.1f"
         yScale={{type: 'linear', min: 'auto'}}
-        xScale={{type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day'}}
-        axisBottom={{format: '%b %d', tickValues: 'every 4 days'}}
+        {...timeScale}
         axisLeft={{ tickValues: [4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9] }}
       />
     </div>
@@ -226,4 +220,10 @@ const lineConfig = {
   sliceTooltip: lineTooltip,
   margin: { bottom: 30, left: 30, right: 20, top: 10 },
   animate: true,
+}
+
+const timeScale = {
+  xFormat:"time:%d/%m/%Y",
+  xScale: {type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day'},
+  axisBottom: {format: '%b %d', tickValues: 'every 4 days'},
 }
