@@ -39,7 +39,7 @@ export function Graphs() {
   
   return (
     <div>
-      <label>
+      <label style={{display: "inline-flex", alignItems: "center", gap: '1em'}}>
         Lissé sur {smoothSpan} jours <input
           type="range" min="1" max="7"
           value={smoothSpan} onChange={({target}) => setSmoothSpan(target.value) }
