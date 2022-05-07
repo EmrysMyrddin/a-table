@@ -181,7 +181,7 @@ function MealsQuantityByTimeGraph({ meals }) {
         xFormat={duration => `${Math.floor(duration)}h${((duration - Math.floor(duration)) * 60).toFixed(0).padStart(2, '0')}`}
         yScale={{type: 'linear', min: 'auto'}}
         yFormat=">-.1f"
-        xScale={{type: 'linear', format: '>-.2f'}}
+        xScale={{type: 'linear', format: '>-.2f', min: 'auto'}}
         axisBottom={{format: '>-.2f'}}
       />
     </div>
