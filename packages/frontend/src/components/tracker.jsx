@@ -9,7 +9,7 @@ import {formatDate} from "../utils";
 export function Tracker() {
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos{
-      meals { id, date, quantity }
+      meals(order_by: [{date: asc}]) { id, date, quantity }
       medications { id, date, medication }
       poops { id, date, quantity }
     }`
