@@ -1,10 +1,8 @@
 import {useMutation} from "urql";
 import {useEffect, useState} from "react";
 import {intervalToDuration, isAfter} from "date-fns";
-import {sumBy} from "lodash";
-import {formatDateTime} from "../utils";
+import {formatDate, formatDateTime} from "../utils";
 
-export const min_daily_meal_target = 420
 export function maxTarget(date) {
   const { target } = maxTargets.find(({ until }) => !date || isAfter(until, date))
   return target
@@ -93,16 +91,14 @@ export function Meal({event}) {
   )
 }
 
-export function MealDaySummary({meals, date}) {
-  const sum = sumBy(meals, 'quantity')
+export function MealDaySummary({day : {date, count, sum, avg }, onClick}) {
   return (
     <>
-      {date} :<br/>
-      📊 {sum} ml
-      | 🍼 {meals.length}{' '}
-      | 📈 {formatNumber(sum / meals.length)} ml
-      | 🔽 <Target target={min_daily_meal_target} value={sum}/> ml
-      | 🔼 <Target target={maxTarget(meals[0]?.date)} value={sum}/> ml
+      <span className="column" style={{width: '2.5em'}}>{formatDate(date)}</span> :{' '}
+      <span className="column" style={{width: '5em'}}>📊 {sum} ml</span>
+      | <span className="column" style={{width: '2.5em'}}>🍼 {count}</span>
+      | <span className="column" style={{width: '5em'}}>📈 {formatNumber(avg)} ml</span>
+      | <span className="column" style={{width: '5em'}}>🔼 <Target target={maxTarget(date)} value={sum}/> ml</span>
     </>
   )
 }

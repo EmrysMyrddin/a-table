@@ -6,7 +6,7 @@ import {drop, groupBy, meanBy, orderBy, range, sumBy, take, takeRight} from "lod
 import {intervalToDuration} from "date-fns";
 import {formatDate} from "../utils";
 import {useMemo, useState} from "react";
-import {maxTarget, min_daily_meal_target} from "./meals";
+import {maxTarget} from "./meals";
 
 export function Graphs() {
   const [{data, fetching, error}] = useQuery({
@@ -81,7 +81,6 @@ function DailySumGraph({ mealsByDate, smoothSpan }) {
         yFormat=">-.0f"
         yScale={{type: 'linear', min: 'auto'}}
         markers={[
-          {axis: 'y', value: min_daily_meal_target, lineStyle: { stroke: '#b22925' }, legend: 'minimum'},
           {axis: 'y', value: maxTarget(new Date()), lineStyle: { stroke: '#59b225' }, legend: 'objectif'}
         ]}
       />
@@ -164,12 +163,12 @@ function StackedMealsGraph({ mealsByDate }) {
 function MealsQuantityByTimeGraph({ meals }) {
   const data = useMemo(() => [{
     id: 'meals quantity',
-    data: meals
+    data: takeRight(meals
       .filter(({sincePrevious}) => sincePrevious)
       .map(({quantity, sincePrevious}) => ({
         x: sincePrevious.hours + sincePrevious.minutes/60,
         y: quantity
-      }))
+      })), 7 * 15)
   }], [meals])
   
   return (

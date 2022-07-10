@@ -3,5 +3,5 @@ export function formatDateTime(date) {
 }
 
 export function formatDate(date) {
-  return date.toLocaleString('fr-FR', { dateStyle: "short", timeZone: "Europe/Paris"})
+  return date.toLocaleString('fr-FR', { month: "2-digit", day: '2-digit', timeZone: "Europe/Paris"})
 }
