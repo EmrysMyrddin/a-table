@@ -48,12 +48,13 @@ function Day({day, defaultOpen}) {
 
 function DayDetails({day}) {
   const [{data, fetching, error}] = useQuery({
-    query: /* GraphQL */ `query list_tracking_infos($dateFilter: timestamptz_comparison_exp){
-      meals(where: { date: $dateFilter }, order_by: [{date: asc}]) { id, date, quantity }
-      medications(where: { date: $dateFilter }) { id, date, medication }
-      poops(where: { date: $dateFilter }) { id, date, quantity }
+    query: /* GraphQL */ `query list_tracking_infos($startDate: timestamptz!, $endDate: timestamptz!){
+      meals(where: { date: { _gte: $startDate, _lte: $endDate} }, order_by: [{date: asc}]) { id, date, quantity }
+      medications(where: { date: { _gte: $startDate, _lte: $endDate} }) { id, date, medication }
+      poops(where: { date: { _gte: $startDate, _lte: $endDate} }) { id, date, quantity }
+      previousDayLastMeal: meals(where: { date: { _lt: $startDate } }, order_by: [{ date: desc }], limit: 1) { date }
     }`,
-    variables: { dateFilter: { _gte: day.date, _lt: addDays(day.date, 1) } },
+    variables: { startDate: day.date, endDate: addDays(day.date, 1) },
   })
   
   if (fetching) return <p>chargement...</p>
@@ -62,7 +63,7 @@ function DayDetails({day}) {
   const events = orderBy(
     [
       ...data.meals.map((meal, i) => {
-        const previous = data.meals[i - 1]
+        const previous = i === 0 ? data.previousDayLastMeal[0] : data.meals[i - 1]
         return ({
           ...meal,
           type: 'meal',
