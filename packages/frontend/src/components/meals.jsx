@@ -91,14 +91,14 @@ export function Meal({event}) {
   )
 }
 
-export function MealDaySummary({day : {date, count, sum, avg }, onClick}) {
+export function MealDaySummary({day : {date, count, sum, avg }}) {
   return (
     <>
-      <span className="column" style={{width: '2.5em'}}>{formatDate(date)}</span> :{' '}
-      <span className="column" style={{width: '5em'}}>📊 {sum} ml</span>
-      | <span className="column" style={{width: '2.5em'}}>🍼 {count}</span>
-      | <span className="column" style={{width: '5em'}}>📈 {formatNumber(avg)} ml</span>
-      | <span className="column" style={{width: '5em'}}>🔼 <Target target={maxTarget(date)} value={sum}/> ml</span>
+      <span className="column" style={{width: '2.5em'}}>{formatDate(date)}</span>{' '}
+      <span className="column" style={{width: '5.1em'}}>📊 {sum} ml</span>
+      <span className="column" style={{width: '2.5em'}}>🍼 {count}</span>
+      <span className="column" style={{width: '5em'}}>📈 {formatNumber(avg)} ml</span>
+      <span className="column" style={{width: '5em'}}>🔼 <Target target={maxTarget(date)} value={sum}/> ml</span>
     </>
   )
 }

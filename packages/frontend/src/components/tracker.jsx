@@ -3,14 +3,14 @@ import {Medication} from "./medications";
 import {Poop} from "./poops";
 import {useQuery} from "urql";
 import {orderBy} from "lodash";
-import {addDays, intervalToDuration} from "date-fns";
+import {addDays, endOfDay, intervalToDuration, startOfDay} from "date-fns";
 import {formatDate} from "../utils";
 import {useState} from "react";
 
 export function Tracker() {
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos{
-      daily_stats(order_by: { date: desc }) { date, sum, avg, count }
+      daily_stats(order_by: { date: desc }) { date, sum, avg, count, start_date, end_date }
       last_meal: meals(order_by: { date: desc }, limit: 1) {
         id, date, quantity
       }
@@ -49,21 +49,25 @@ function Day({day, defaultOpen}) {
 function DayDetails({day}) {
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos($startDate: timestamptz!, $endDate: timestamptz!){
-      meals(where: { date: { _gte: $startDate, _lte: $endDate} }, order_by: [{date: asc}]) { id, date, quantity }
+      meals(where: { date: { _gte: $startDate, _lte: $endDate} }, order_by: [{date: asc}]) {
+        id, date, quantity,
+        previous_meal { id, date }
+      }
       medications(where: { date: { _gte: $startDate, _lte: $endDate} }) { id, date, medication }
       poops(where: { date: { _gte: $startDate, _lte: $endDate} }) { id, date, quantity }
-      previousDayLastMeal: meals(where: { date: { _lt: $startDate } }, order_by: [{ date: desc }], limit: 1) { date }
     }`,
-    variables: { startDate: day.date, endDate: addDays(day.date, 1) },
+    variables: { startDate: startOfDay(new Date(day.start_date)), endDate: endOfDay(new Date(day.end_date)) },
   })
+  
+  console.log(day.date, addDays(day.date, 1))
   
   if (fetching) return <p>chargement...</p>
   if (error) return <p>Erreur : {error.message}</p>
   
   const events = orderBy(
     [
-      ...data.meals.map((meal, i) => {
-        const previous = i === 0 ? data.previousDayLastMeal[0] : data.meals[i - 1]
+      ...data.meals.map(meal => {
+        const [previous] = meal.previous_meal
         return ({
           ...meal,
           type: 'meal',
