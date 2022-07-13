@@ -6,6 +6,7 @@ import {orderBy} from "lodash";
 import {addDays, endOfDay, intervalToDuration, startOfDay} from "date-fns";
 import {formatDate} from "../utils";
 import {useState} from "react";
+import {Puree} from "./puree";
 
 export function Tracker() {
   const [{data, fetching, error}] = useQuery({
@@ -46,6 +47,7 @@ function Day({day, defaultOpen}) {
   )
 }
 
+const  detailsQueryContext = { additionalTypenames: ['medications', 'poops', 'purees'] }
 function DayDetails({day}) {
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos($startDate: timestamptz!, $endDate: timestamptz!){
@@ -55,11 +57,11 @@ function DayDetails({day}) {
       }
       medications(where: { date: { _gte: $startDate, _lte: $endDate} }) { id, date, medication }
       poops(where: { date: { _gte: $startDate, _lte: $endDate} }) { id, date, quantity }
+      purees(where: {date: {_gte: $startDate, _lte: $endDate}}) { id, date, quantity, name }
     }`,
     variables: { startDate: startOfDay(new Date(day.start_date)), endDate: endOfDay(new Date(day.end_date)) },
+    context: detailsQueryContext,
   })
-  
-  console.log(day.date, addDays(day.date, 1))
   
   if (fetching) return <p>chargement...</p>
   if (error) return <p>Erreur : {error.message}</p>
@@ -75,7 +77,8 @@ function DayDetails({day}) {
         });
       }),
       ...data.medications.map(medication => ({...medication, type: 'medication'})),
-      ...data.poops.map(poop => ({...poop, type: 'poop'}))
+      ...data.poops.map(poop => ({...poop, type: 'poop'})),
+      ...data.purees.map(puree => ({...puree, type: 'puree'}))
     ],
     ['date', 'asc']
   ).map(event => ({...event, date: new Date(event.date)}))
@@ -94,4 +97,5 @@ const eventComponents = {
   meal: Meal,
   medication: Medication,
   poop: Poop,
+  puree: Puree,
 }

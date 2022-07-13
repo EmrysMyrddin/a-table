@@ -4,6 +4,7 @@ import {AddMedication} from "./medications";
 import {Tabs} from "./tabs";
 import {Tracker} from "./tracker";
 import {Graphs} from "./graphs";
+import {AddPuree} from "./puree";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <AddMeal/>
       <AddMedication />
       <AddPoop />
+      <AddPuree />
   
       <Tabs>
         <Tracker tabTitle="Tracking"/>

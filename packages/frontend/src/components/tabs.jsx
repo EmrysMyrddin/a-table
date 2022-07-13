@@ -5,10 +5,10 @@ export function Tabs({children}) {
   
   return (
     <>
-      <div onChange={e => setCurrent(e.target.value)}>
+      <div >
         {children.map(({props: {tabTitle}}) => (
           <label key={tabTitle}>
-            <input type="radio" value={tabTitle} name="tab" checked={tabTitle === current}/> {tabTitle}
+            <input type="radio" value={tabTitle} name="tab" checked={tabTitle === current} onChange={e => setCurrent(e.target.value)}/> {tabTitle}
           </label>
         ))}
       </div>
