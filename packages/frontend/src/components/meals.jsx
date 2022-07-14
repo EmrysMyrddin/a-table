@@ -4,6 +4,7 @@ import {intervalToDuration, isAfter} from "date-fns";
 import {formatDate, formatDateTime} from "../utils";
 
 export function maxTarget(date) {
+  date = new Date(date)
   const { target } = maxTargets.find(({ until }) => !date || isAfter(until, date))
   return target
 }
@@ -91,14 +92,24 @@ export function Meal({event}) {
   )
 }
 
-export function MealDaySummary({day : {date, count, sum, avg }}) {
+export function MealDaySummary({day : {start_date, meals_count, meals_sum, meals_avg, purees_sum, purees_avg, purees_count }}) {
   return (
     <>
-      <span className="column" style={{width: '2.5em'}}>{formatDate(date)}</span>{' '}
-      <span className="column" style={{width: '5.2em'}}>📊 {sum} ml</span>
-      <span className="column" style={{width: '2.5em'}}>🍼 {count}</span>
-      <span className="column" style={{width: '5em'}}>📈 {formatNumber(avg)} ml</span>
-      <span className="column" style={{width: '5em'}}>🔼 <Target target={maxTarget(date)} value={sum}/> ml</span>
+      <span className="column" style={{width: '2.5em'}}>{formatDate(start_date)}</span>{' '}
+      <span className="column" style={{width: '2.5em'}}>🍼 {meals_count}</span>
+      <span className="column" style={{width: '5.2em'}}>📊 {meals_sum} ml</span>
+      <span className="column" style={{width: '5em'}}>📈 {formatNumber(meals_avg)} ml</span>
+      <span className="column" style={{width: '5em'}}>🎯 <Target target={maxTarget(start_date)} value={meals_sum}/> ml</span>
+      
+      {purees_sum && (
+        <>
+          <br/>
+          <span className="column" style={{width: '2.5em', marginLeft: '4em'}}>🥣 {purees_count}</span>
+          <span className="column" style={{width: '5.2em'}}>📊 {purees_sum} g</span>
+          <span className="column" style={{width: '5em'}}>📈 {formatNumber(purees_avg)} g</span>
+        </>
+      )}
+     
     </>
   )
 }

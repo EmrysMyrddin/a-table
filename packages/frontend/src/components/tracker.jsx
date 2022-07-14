@@ -3,32 +3,35 @@ import {Medication} from "./medications";
 import {Poop} from "./poops";
 import {useQuery} from "urql";
 import {orderBy} from "lodash";
-import {addDays, endOfDay, intervalToDuration, startOfDay} from "date-fns";
+import {endOfDay, intervalToDuration, startOfDay} from "date-fns";
 import {formatDate} from "../utils";
 import {useState} from "react";
 import {Puree} from "./puree";
 
+const  trackerQueriesContext = { additionalTypenames: ['medications', 'poops', 'purees'] }
+
 export function Tracker() {
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos{
-      daily_stats(order_by: { date: desc }) { date, sum, avg, count, start_date, end_date }
+      daily_stats(order_by: { day: desc }) {
+        day, meals_sum, meals_avg, meals_count, purees_avg, purees_sum, purees_count, start_date, end_date
+      }
       last_meal: meals(order_by: { date: desc }, limit: 1) {
         id, date, quantity
       }
-    }`
+    }`,
+    context: trackerQueriesContext
   })
   
   if (fetching) return <p>chargement...</p>
   if (error) return <p>Erreur : {error.message}</p>
   
-  const days = data.daily_stats.map((day) => ({...day, date: new Date(day.date)}))
-  
   return (
     <>
       <LastMeal meal={data.last_meal[0]}/>
       <p>Objectifs: {maxTarget(new Date())}</p>
-      {days.map((day, i) => (
-        <Day key={formatDate(day.date)} day={day} defaultOpen={i === 0} />
+      {data.daily_stats.map((day, i) => (
+        <Day key={formatDate(day.day)} day={day} defaultOpen={i === 0} />
       ))}
     </>
   )
@@ -47,7 +50,6 @@ function Day({day, defaultOpen}) {
   )
 }
 
-const  detailsQueryContext = { additionalTypenames: ['medications', 'poops', 'purees'] }
 function DayDetails({day}) {
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos($startDate: timestamptz!, $endDate: timestamptz!){
@@ -60,7 +62,7 @@ function DayDetails({day}) {
       purees(where: {date: {_gte: $startDate, _lte: $endDate}}) { id, date, quantity, name }
     }`,
     variables: { startDate: startOfDay(new Date(day.start_date)), endDate: endOfDay(new Date(day.end_date)) },
-    context: detailsQueryContext,
+    context: trackerQueriesContext,
   })
   
   if (fetching) return <p>chargement...</p>
