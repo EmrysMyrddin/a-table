@@ -50,7 +50,9 @@ export function Puree({event}) {
   if(event.name.toLowerCase().includes('aubergine')) vegetableEmoji = '🍆'
   if(event.name.toLowerCase().includes('brocoli')) vegetableEmoji = '🥦'
   if(event.name.toLowerCase().includes('concombre')) vegetableEmoji = '🥒'
-  if(event.name.toLowerCase().includes('patate') || event.name.includes('pomme de terre')) vegetableEmoji = '🥔'
+  if(event.name.toLowerCase().includes('patate') ||
+    event.name.toLowerCase().includes('pomme de terre') ||
+    event.name.toLowerCase().includes('pdt')) vegetableEmoji = '🥔'
   if(event.name.toLowerCase().includes('carotte')) vegetableEmoji = '🥕'
   
   return (
