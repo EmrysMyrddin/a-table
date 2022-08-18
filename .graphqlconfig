@@ -3,9 +3,9 @@
   "extensions": {
     "endpoints": {
       "dev": {
-        "url": "https://a-table.caprover.cocaud.dev/v1/graphql",
+        "url": "http://localhost:8080/v1/graphql",
         "headers": {
-          "x-hasura-admin-secret": "kM1hJlZ89F5CI5DHrxUYYoZq0Y51vCFMZOgH8YMWxx7UhuYtyW"
+          "x-hasura-admin-secret": "dev"
         },
         "introspect": true
       }

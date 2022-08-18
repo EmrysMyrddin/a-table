@@ -1,0 +1,81 @@
+table:
+  schema: public
+  name: babies
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: daily_stats
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: daily_stats
+        insertion_order: null
+        column_mapping:
+          id: baby_id
+  - name: meals
+    using:
+      foreign_key_constraint_on:
+        column: baby_id
+        table:
+          schema: public
+          name: meals
+  - name: medications
+    using:
+      foreign_key_constraint_on:
+        column: baby_id
+        table:
+          schema: public
+          name: medications
+  - name: poops
+    using:
+      foreign_key_constraint_on:
+        column: baby_id
+        table:
+          schema: public
+          name: poops
+  - name: purees
+    using:
+      foreign_key_constraint_on:
+        column: baby_id
+        table:
+          schema: public
+          name: purees
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-User-Id
+      columns:
+        - name
+      backend_only: false
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+        - created_at
+        - updated_at
+        - id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check: {}
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id

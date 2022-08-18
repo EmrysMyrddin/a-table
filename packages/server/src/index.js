@@ -17,6 +17,8 @@ app.register(FastifyStatic, {
   wildcard: false,
 })
 
+app.get('/api/*')
+
 app.get('/*', function (req, reply) {
   if(req.url.startsWith("/static/")) { // We don't want to have a bad cached static file
     return reply.status(404).send('404')

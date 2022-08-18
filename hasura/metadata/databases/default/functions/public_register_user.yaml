@@ -1,0 +1,8 @@
+function:
+  schema: public
+  name: register_user
+configuration:
+  custom_root_fields: {}
+  exposed_as: mutation
+permissions:
+  - role: unauthorized

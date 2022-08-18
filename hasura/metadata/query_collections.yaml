@@ -1,0 +1,10 @@
+- name: allowed-queries
+  definition:
+    queries:
+      - name: insert_meal
+        query: |
+          mutation insert_meal ($quantity: Int!, $date: date!) {
+            insert_meals(objects: {date:$date,quantity:$quantity}) {
+              affected_rows
+            }
+          }

@@ -11,7 +11,9 @@
     "start": "yarn workspace @a-table/server start",
     "dev": "yarn workspace @a-table/server dev",
     "build": "yarn workspaces foreach run build",
-    "deploy": "caprover deploy -d"
+    "deploy": "caprover deploy -d",
+    "hasura:local": "hasura --project hasura --admin-secret dev",
+    "hasura:prod": "hasura --project hasura --admin-secret $(gopass show -o caprover/a-table/hasura/admin-secret) --endpoint https://a-table.caprover.cocaud.dev"
   },
   "dependencies": {
     "@nivo/bar": "^0.79.1",

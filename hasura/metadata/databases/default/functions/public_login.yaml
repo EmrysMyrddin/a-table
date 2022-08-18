@@ -1,0 +1,9 @@
+function:
+  schema: public
+  name: login
+configuration:
+  custom_root_fields: {}
+  exposed_as: mutation
+permissions:
+  - role: user
+  - role: unauthorized

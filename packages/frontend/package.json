@@ -7,12 +7,15 @@
     "@testing-library/react": "^13.0.1",
     "@testing-library/user-event": "^13.5.0",
     "@urql/exchange-refocus": "^0.2.5",
+    "classnames": "^2.3.1",
     "fastify-static": "^4.6.1",
     "graphql": "^16.3.0",
     "lodash": "^4.17.21",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-router-dom": "6",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.0.7",
     "urql": "^2.2.0",
     "web-vitals": "^2.1.4"
   },
@@ -37,5 +40,10 @@
       "last 1 chrome version",
       "last 1 firefox version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.8",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.8"
   }
 }

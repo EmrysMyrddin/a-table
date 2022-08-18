@@ -1,0 +1,54 @@
+table:
+  schema: public
+  name: purees
+object_relationships:
+  - name: baby
+    using:
+      foreign_key_constraint_on: baby_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        baby:
+          user_id:
+            _eq: X-Hasura-User-Id
+      columns:
+        - baby_id
+        - date
+        - name
+        - quantity
+      backend_only: false
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - quantity
+        - name
+        - created_at
+        - date
+        - updated_at
+        - baby_id
+        - id
+      filter:
+        baby:
+          user_id:
+            _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - baby_id
+        - name
+        - quantity
+      filter:
+        baby:
+          user_id:
+            _eq: X-Hasura-User-Id
+      check: null
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        baby:
+          user_id:
+            _eq: X-Hasura-User-Id

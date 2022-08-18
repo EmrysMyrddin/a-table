@@ -1,0 +1,9 @@
+- definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_meal
+  url: meals
+  methods:
+    - POST
+  name: insert_meal
+  comment: null

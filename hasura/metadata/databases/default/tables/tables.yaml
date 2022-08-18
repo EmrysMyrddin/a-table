@@ -1,0 +1,8 @@
+- "!include public_babies.yaml"
+- "!include public_daily_stats.yaml"
+- "!include public_jwt.yaml"
+- "!include public_meals.yaml"
+- "!include public_medications.yaml"
+- "!include public_poops.yaml"
+- "!include public_purees.yaml"
+- "!include public_users.yaml"

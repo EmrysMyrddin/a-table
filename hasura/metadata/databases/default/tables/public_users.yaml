@@ -1,0 +1,30 @@
+table:
+  schema: public
+  name: users
+select_permissions:
+  - role: unauthorized
+    permission:
+      columns: []
+      filter: {}
+      limit: 1
+  - role: user
+    permission:
+      columns:
+        - id
+        - username
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: {}
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

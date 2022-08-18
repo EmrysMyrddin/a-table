@@ -1,0 +1,1 @@
+INSERT INTO "public"."babies"("id", "created_at", "updated_at", "name", "user_id") VALUES (E'b4a22cef-331b-4222-bdc2-508295f69206', E'2022-08-15T21:01:59.213464+00:00', E'2022-08-15T21:01:59.213464+00:00', E'Arya', E'564698f7-d7b7-4487-b59d-e521f237c93c');

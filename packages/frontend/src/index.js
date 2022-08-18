@@ -1,16 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/App';
+import 'react-toastify/dist/ReactToastify.css';
+import App from './routes/app';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "urql";
 import { client } from "./graphql-client";
+import {BrowserRouter} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider value={client}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+  
+      <ToastContainer />
     </Provider>
   </React.StrictMode>
 );
