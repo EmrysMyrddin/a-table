@@ -5,45 +5,44 @@ import {toast} from "react-toastify";
 import {Modal} from "../components/modal";
 import {Input} from "../components/input";
 import {FloatingButton, SecondaryButton} from "../components/button";
-import {Header} from "../components/header";
 import {Small} from "../components/text";
 import {AddEventModal} from "../components/add-event-modal";
-import {LogoutButton} from "../components/logout";
-import {ReactComponent as ShareIcon} from "../components/icons/share-svgrepo-com.svg";
-import {useCurrentUser} from "../components/auth-provider";
+import {LastMeal} from "./baby/tracker/meals";
 
 export function BabyChoiceScreen() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [updatingBaby, setUpdatingBaby] = useState(null);
   const [addingEvent, setAddingEvent] = useState(null);
-  const [showSharing, setShowSharing] = useState(false);
   const [{data}] = useQuery({query: LIST_BABIES_QUERY})
   
   return (
     <>
-      {data?.babies?.map(baby => (
-        <Card to={`/babies/${baby.id}/tracker`} key={baby.id}>
-          <Card.Body>
-            <Card.Title>{baby.name}</Card.Title>
-            
-            <div className="text-center">75<Small>ml il y a</Small> 2h10</div>
-            <div className="flex gap-2 items-center justify-around mt-4 text-sm">
-              <div>600<Small> ml</Small></div>
-              <div>2 <Small> biberons</Small></div>
-              <div>75<Small> ml moy.</Small></div>
-            </div>
-            <div className="flex gap-2 items-center justify-around mb-2 text-sm">
-              <div>600<Small> g</Small></div>
-              <div>2 <Small> pots</Small></div>
-              <div>75<Small> g moy.</Small></div>
-            </div>
-          </Card.Body>
-          <Card.Actions>
-            <Card.Action onClick={() => setUpdatingBaby(baby)}>✏️ Renommer</Card.Action>
-            <Card.Action onClick={() => setAddingEvent(baby)}>＋ Événement</Card.Action>
-          </Card.Actions>
-        </Card>
-      ))}
+      {data?.babies?.map(baby => {
+        const {daily_stats: [stats]} = baby
+        return (
+          <Card to={`/babies/${baby.id}/tracker`} key={baby.id}>
+            <Card.Body>
+              <Card.Title>{baby.name}</Card.Title>
+        
+              <div className="text-center"><LastMeal meal={baby.last_meal?.[0]}/></div>
+              <div className="flex gap-2 items-center justify-around mt-4 text-sm">
+                <div>{stats?.meals_sum ?? 0}<Small> ml</Small></div>
+                <div>{stats?.meals_count ?? 0} <Small> biberons</Small></div>
+                <div>{stats?.meals_avg ?? 0}<Small> ml moy.</Small></div>
+              </div>
+              <div className="flex gap-2 items-center justify-around mb-2 text-sm">
+                <div>{stats?.purees_sum ?? 0}<Small> g</Small></div>
+                <div>{stats?.purees_count ?? 0}<Small> pots</Small></div>
+                <div>{stats?.purees_avg ?? 0}<Small> g moy.</Small></div>
+              </div>
+            </Card.Body>
+            <Card.Actions>
+              <Card.Action onClick={() => setUpdatingBaby(baby)}>✏️ Renommer</Card.Action>
+              <Card.Action onClick={() => setAddingEvent(baby)}>＋ Événement</Card.Action>
+            </Card.Actions>
+          </Card>
+        );
+      })}
       
       
       {createModalOpen && <CreateModal close={() => setCreateModalOpen(false)}/>}
@@ -124,6 +123,12 @@ const LIST_BABIES_QUERY = /* GraphQL */ `
   query listBabies {
     babies {
       id, name
+      daily_stats(order_by: { day: desc }, limit: 1) {
+        meals_sum, meals_avg, meals_count, purees_avg, purees_sum, purees_count
+      }
+      last_meal: meals(order_by: { date: desc }, limit: 1) {
+        id, date, quantity
+      }
     }
   }
 `
