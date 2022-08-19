@@ -20,9 +20,6 @@ export function Tracker() {
         daily_stats(order_by: { day: desc }) {
           day, meals_sum, meals_avg, meals_count, purees_avg, purees_sum, purees_count, start_date, end_date
         }
-        last_meal: meals(order_by: { date: desc }, limit: 1) {
-          id, date, quantity
-        }
       }
     }`,
     variables: {id},

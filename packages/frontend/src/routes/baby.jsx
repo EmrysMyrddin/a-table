@@ -7,6 +7,7 @@ import {LogoutButton} from "../components/logout";
 import {AddEventModal} from "../components/add-event-modal";
 import {useState} from "react";
 import { ReactComponent as BackIcon} from "../components/icons/back-svgrepo-com.svg";
+import {LastMeal} from "./baby/tracker/meals";
 
 export function BabyScreen() {
   const {id} = useParams();
@@ -18,7 +19,7 @@ export function BabyScreen() {
         <Link to="/babies" className="mr-4 mt-0.5"><BackIcon className="h-9 inline-block rounded-full hover:bg-gray-100"/></Link>
         <div className="flex flex-col items-center">
           <div className="font-bold">{data?.baby?.name}</div>
-          <div>75<Small> ml il y a</Small> 2h10</div>
+          <LastMeal meal={data?.baby?.last_meal} />
         </div>
         <LogoutButton className="justify-self-end" />
       </Header>
@@ -43,6 +44,9 @@ const GET_BABY = /* GraphQL */`
   query getBaby($id: uuid!) {
     baby: babies_by_pk(id: $id) {
       id, name
+      last_meal: meals(order_by: { date: desc }, limit: 1) {
+        id, date, quantity
+      }
     }
   }
 `

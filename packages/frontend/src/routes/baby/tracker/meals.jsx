@@ -2,6 +2,7 @@ import {useMutation} from "urql";
 import {useEffect, useState} from "react";
 import {intervalToDuration, isAfter} from "date-fns";
 import {formatDate, formatDateTime} from "../../../utils";
+import {Small} from "../../../components/text";
 
 export function maxTarget(date) {
   date = new Date(date)
@@ -39,7 +40,7 @@ export function AddMeal() {
 
 export function LastMeal({meal}) {
   const [end, setEnd] = useState(() => new Date())
-  const start = new Date(meal.date)
+  const start = new Date(meal?.date)
   
   useEffect(() => {
     const interval = setInterval(() => setEnd(new Date()), 60_000)
@@ -53,13 +54,7 @@ export function LastMeal({meal}) {
   const timeSinceLastMeal = intervalToDuration({start, end})
   
   return (
-    <p>
-      Dernier repas: {meal.quantity} ml à{' '}
-      <strong>
-        {formatDateTime(start)}
-      </strong>{' '}
-      (il y a <strong>{timeSinceLastMeal.hours}h{timeSinceLastMeal.minutes.toString().padStart(2, '0')}</strong>)
-    </p>
+    <div>{meal.quantity}<Small> ml il y a</Small> {timeSinceLastMeal.hours}h{timeSinceLastMeal.minutes.toString().padStart(2, '0')}</div>
   )
 }
 
