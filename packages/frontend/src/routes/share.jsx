@@ -66,7 +66,7 @@ export function ShareModal({close}) {
   return (
     <Modal title="Partager" onCloseRequested={close}>
       <div className="text-center flex flex-col gap-2">
-        <p>Vous pouvez partager l'accès, la modification et l'ajout d'évenemnt à vos bébés aux autres utilisatuers.</p>
+        <p>Vous pouvez partager l'accès, la modification et l'ajout d'évenement de vos bébés aux autres utilisateurs.</p>
         <p>Pour demander le partage à un autre utilisateur, envoyez lui le lien ci-dessous :</p>
         <span className="text-blue-500 cursor-pointer" onClick={async () => {
           await navigator.clipboard.writeText(shareRequestLink)

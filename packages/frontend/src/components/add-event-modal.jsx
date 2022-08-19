@@ -89,7 +89,7 @@ const types = [
     }
   },
   {
-    icon: "💩", label: "Celle", type: 'poop', Form: PoopForm, height: "57px", mutate: (form, variables) => {
+    icon: "💩", label: "Selle", type: 'poop', Form: PoopForm, height: "57px", mutate: (form, variables) => {
       return client.mutation(
         /* GraphQL */ `
           mutation addPoop($babyId: uuid!, $date: timestamptz!, $quantity: String!) {
