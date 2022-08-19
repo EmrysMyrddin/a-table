@@ -5,4 +5,5 @@
 - "!include public_medications.yaml"
 - "!include public_poops.yaml"
 - "!include public_purees.yaml"
+- "!include public_shares.yaml"
 - "!include public_users.yaml"

@@ -33,7 +33,7 @@ export function Modal({children, onCloseRequested, onSubmit, okLabel, loading, t
           {children}
           <div className="flex justify-end gap-4">
             <SecondaryButton type="reset" disabled={loading} onClick={() => close()}>Annuler</SecondaryButton>
-            <PrimaryButton type="submit" disabled={loading | disabled}>{okLabel}</PrimaryButton>
+            {onSubmit && <PrimaryButton type="submit" disabled={loading | disabled}>{okLabel}</PrimaryButton>}
           </div>
         </div>
       </form>

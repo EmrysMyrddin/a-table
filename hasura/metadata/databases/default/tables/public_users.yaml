@@ -1,6 +1,28 @@
 table:
   schema: public
   name: users
+array_relationships:
+  - name: babies
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: babies
+  - name: shared
+    using:
+      foreign_key_constraint_on:
+        column: to_user_id
+        table:
+          schema: public
+          name: shares
+  - name: sharing
+    using:
+      foreign_key_constraint_on:
+        column: by_user_id
+        table:
+          schema: public
+          name: shares
 select_permissions:
   - role: unauthorized
     permission:
@@ -12,7 +34,16 @@ select_permissions:
       columns:
         - id
         - username
-      filter: {}
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - sharing:
+              to_user_id:
+                _eq: X-Hasura-User-Id
+          - shared:
+              by_user_id:
+                _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:

@@ -1,0 +1,6 @@
+function:
+  schema: public
+  name: me
+configuration:
+  custom_root_fields: {}
+  session_argument: session

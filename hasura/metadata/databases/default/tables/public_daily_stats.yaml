@@ -26,6 +26,12 @@ select_permissions:
         - purees_count
         - baby_id
       filter:
-        baby:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _or:
+          - baby:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - baby:
+              user:
+                sharing:
+                  to_user_id:
+                    _eq: X-Hasura-User-Id

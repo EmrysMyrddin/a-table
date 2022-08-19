@@ -9,9 +9,15 @@ insert_permissions:
   - role: user
     permission:
       check:
-        baby:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _or:
+          - baby:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - baby:
+              user:
+                sharing:
+                  to_user_id:
+                    _eq: X-Hasura-User-Id
       columns:
         - baby_id
         - date
@@ -30,9 +36,15 @@ select_permissions:
         - baby_id
         - id
       filter:
-        baby:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _or:
+          - baby:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - baby:
+              user:
+                sharing:
+                  to_user_id:
+                    _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:
@@ -41,14 +53,26 @@ update_permissions:
         - name
         - quantity
       filter:
-        baby:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _or:
+          - baby:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - baby:
+              user:
+                sharing:
+                  to_user_id:
+                    _eq: X-Hasura-User-Id
       check: null
 delete_permissions:
   - role: user
     permission:
       filter:
-        baby:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _or:
+          - baby:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - baby:
+              user:
+                sharing:
+                  to_user_id:
+                    _eq: X-Hasura-User-Id

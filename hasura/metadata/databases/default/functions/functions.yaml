@@ -1,2 +1,3 @@
 - "!include public_login.yaml"
+- "!include public_me.yaml"
 - "!include public_register_user.yaml"

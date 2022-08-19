@@ -1,14 +1,14 @@
 import {useQuery} from "urql";
 import {Navigate, Outlet} from "react-router-dom";
-import {createContext} from "react";
+import {createContext, useContext} from "react";
 
 const AuthContext = createContext(null)
 
 export function WithAuth() {
-  const { data, fetching, error } = useQuery({
+  const [{ data, fetching, error }] = useQuery({
     query: /* GraphQL */ `
       query {
-         users {
+         me {
           id, username
         }
       }
@@ -22,8 +22,12 @@ export function WithAuth() {
   if (fetching) {
     return null
   }
-
+  
   return (
-    <AuthContext.Provider value={data?.users?.[0]}><Outlet /></AuthContext.Provider>
+    <AuthContext.Provider value={data?.me}><Outlet /></AuthContext.Provider>
   )
+}
+
+export function useCurrentUser() {
+  return useContext(AuthContext)
 }

@@ -1,0 +1,12 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- CREATE OR REPLACE FUNCTION public.me(session json)
+--  RETURNS users
+--  LANGUAGE sql
+--  STABLE
+-- AS $function$
+--     select *
+--     from users
+--     where
+--         users.id = (session->>'x-hasura-user-id')::uuid
+-- $function$;

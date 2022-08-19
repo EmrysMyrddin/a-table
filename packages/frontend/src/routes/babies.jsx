@@ -4,25 +4,23 @@ import {Card} from '../components/card';
 import {toast} from "react-toastify";
 import {Modal} from "../components/modal";
 import {Input} from "../components/input";
-import {FloatingButton} from "../components/button";
+import {FloatingButton, SecondaryButton} from "../components/button";
 import {Header} from "../components/header";
 import {Small} from "../components/text";
 import {AddEventModal} from "../components/add-event-modal";
 import {LogoutButton} from "../components/logout";
+import {ReactComponent as ShareIcon} from "../components/icons/share-svgrepo-com.svg";
+import {useCurrentUser} from "../components/auth-provider";
 
 export function BabyChoiceScreen() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [updatingBaby, setUpdatingBaby] = useState(null);
   const [addingEvent, setAddingEvent] = useState(null);
+  const [showSharing, setShowSharing] = useState(false);
   const [{data}] = useQuery({query: LIST_BABIES_QUERY})
   
   return (
     <>
-      <Header className="flex justify-between items-center">
-        <div>Baby Tracker</div>
-        <LogoutButton className="justify-self-end" />
-      </Header>
-      
       {data?.babies?.map(baby => (
         <Card to={`/babies/${baby.id}/tracker`} key={baby.id}>
           <Card.Body>

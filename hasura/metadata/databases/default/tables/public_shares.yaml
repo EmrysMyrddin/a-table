@@ -1,0 +1,47 @@
+table:
+  schema: public
+  name: shares
+object_relationships:
+  - name: by
+    using:
+      foreign_key_constraint_on: by_user_id
+  - name: to
+    using:
+      foreign_key_constraint_on: to_user_id
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        by_user_id: x-hasura-User-Id
+      columns:
+        - to_user_id
+      backend_only: false
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - by_user_id
+        - id
+        - to_user_id
+      filter:
+        _or:
+          - by:
+              id:
+                _eq: X-Hasura-User-Id
+          - to:
+              id:
+                _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _or:
+          - by:
+              id:
+                _eq: X-Hasura-User-Id
+          - to:
+              id:
+                _eq: X-Hasura-User-Id
