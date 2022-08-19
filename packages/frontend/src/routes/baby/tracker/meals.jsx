@@ -1,7 +1,7 @@
 import {useMutation} from "urql";
 import {useEffect, useState} from "react";
 import {intervalToDuration, isAfter} from "date-fns";
-import {formatDate, formatDateTime} from "../../../utils";
+import {formatDate, formatDateTime, formatNumber} from "../../../utils";
 import {Small} from "../../../components/text";
 
 export function maxTarget(date) {
@@ -109,8 +109,4 @@ export function MealDaySummary({day : {start_date, meals_count, meals_sum, meals
       </div>
     </div>
   )
-}
-
-function formatNumber(number){
-  return (number || 0).toLocaleString('fr-FR', {maximumFractionDigits: 0})
 }

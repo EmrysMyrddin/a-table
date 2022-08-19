@@ -8,12 +8,15 @@ import {FloatingButton, SecondaryButton} from "../components/button";
 import {Small} from "../components/text";
 import {AddEventModal} from "../components/add-event-modal";
 import {LastMeal} from "./baby/tracker/meals";
+import {formatNumber} from "../utils";
 
 export function BabyChoiceScreen() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [updatingBaby, setUpdatingBaby] = useState(null);
   const [addingEvent, setAddingEvent] = useState(null);
-  const [{data}] = useQuery({query: LIST_BABIES_QUERY})
+  const [{data, fetching}] = useQuery({query: LIST_BABIES_QUERY})
+  
+  if(fetching) return <p className="text-center p-4"><Small>Chargement en cours</Small></p>
   
   return (
     <>
@@ -28,12 +31,12 @@ export function BabyChoiceScreen() {
               <div className="flex gap-2 items-center justify-around mt-4 text-sm">
                 <div>{stats?.meals_sum ?? 0}<Small> ml</Small></div>
                 <div>{stats?.meals_count ?? 0} <Small> biberons</Small></div>
-                <div>{stats?.meals_avg ?? 0}<Small> ml moy.</Small></div>
+                <div>{formatNumber(stats?.meals_avg) ?? 0}<Small> ml moy.</Small></div>
               </div>
               <div className="flex gap-2 items-center justify-around mb-2 text-sm">
                 <div>{stats?.purees_sum ?? 0}<Small> g</Small></div>
                 <div>{stats?.purees_count ?? 0}<Small> pots</Small></div>
-                <div>{stats?.purees_avg ?? 0}<Small> g moy.</Small></div>
+                <div>{formatNumber(stats?.purees_avg) ?? 0}<Small> g moy.</Small></div>
               </div>
             </Card.Body>
             <Card.Actions>
