@@ -10,13 +10,14 @@ import {Puree} from "./puree";
 import {useParams} from "react-router-dom";
 import cn from "classnames";
 
-const  trackerQueriesContext = { additionalTypenames: ['medications', 'poops', 'purees'] }
+export const  trackerQueriesContext = { additionalTypenames: ['medications', 'poops', 'purees', 'meals'] }
 
 export function Tracker() {
   const { id } = useParams()
   const [{data, fetching, error}] = useQuery({
     query: /* GraphQL */ `query list_tracking_infos($id: uuid!){
       baby: babies_by_pk(id: $id) {
+        id
         daily_stats(order_by: { day: desc }) {
           day, meals_sum, meals_avg, meals_count, purees_avg, purees_sum, purees_count, start_date, end_date
         }

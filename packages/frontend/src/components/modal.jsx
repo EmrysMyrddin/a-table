@@ -13,13 +13,16 @@ export function Modal({children, onCloseRequested, onSubmit, okLabel, loading, t
     <div
       onClick={() => close()}
       className={cn(
-        "fixed inset-0 z-10 flex justify-center items-start bg-gray-900 bg-opacity-50 animate-fadeIn",
+        "fixed inset-0 z-10 flex justify-center items-start bg-gray-900 bg-opacity-50 animate-fadeIn overflow-auto",
         { 'animate-fadeOut': closing },
       )}
     >
       <form
         onClick={e => e.stopPropagation()}
-        className={cn("bg-white shadow-lg rounded-lg  mt-16 w-11/12 animate-slideDown p-4", { 'animate-slideUp': closing })}
+        className={cn(
+          "bg-white shadow-lg rounded-lg  mt-16 w-11/12 animate-slideDown p-4 mb-4",
+          { 'animate-slideUp': closing }
+        )}
         onSubmit={async e => {
           e.preventDefault();
           onSubmit(e.target, close);

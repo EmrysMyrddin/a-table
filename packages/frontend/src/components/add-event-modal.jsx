@@ -1,6 +1,6 @@
 import {Modal} from "./modal";
 import {useState} from "react";
-import {addMinutes, subMinutes} from "date-fns";
+import {addMinutes, format, subMinutes} from "date-fns";
 import {client} from "../graphql-client";
 import cn from "classnames";
 import {Input, Select} from "./input";
@@ -10,9 +10,8 @@ export function AddEventModal({close, baby: {id, name}}) {
   const [selectedType, setSelectedType] = useState(null);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(() => {
-    const dateString = getDatePast10MinutesStep5().toISOString();
-    return dateString.substring(0, dateString.length - 8); // Keep only date and time with minutes
-  });
+    return format(getDatePast10MinutesStep5(), "yyyy-MM-dd'T'HH:mm")
+  })
   
   const {Form, height = "0", mutate} = types.find(({type}) => type === selectedType) ?? {};
   
@@ -24,7 +23,7 @@ export function AddEventModal({close, baby: {id, name}}) {
       onSubmit={async (form, close) => {
         try {
           setLoading(true)
-          const result = await mutate(form, {babyId: id, date});
+          const result = await mutate(form, {babyId: id, date: new Date(date)});
           
           if (result.error) {
             toast.error(`Impossible d'ajouter l'évenement: ${result.error.message}`);

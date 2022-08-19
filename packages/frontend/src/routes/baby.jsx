@@ -1,18 +1,18 @@
 import {Link, NavLink, Outlet, useParams} from "react-router-dom";
 import {useQuery} from "urql";
 import {Header} from "../components/header";
-import {Small} from "../components/text";
-import {FloatingButton, SecondaryButton} from "../components/button";
+import {FloatingButton} from "../components/button";
 import {LogoutButton} from "../components/logout";
 import {AddEventModal} from "../components/add-event-modal";
 import {useState} from "react";
 import { ReactComponent as BackIcon} from "../components/icons/back-svgrepo-com.svg";
 import {LastMeal} from "./baby/tracker/meals";
+import {trackerQueriesContext} from "./baby/tracker/tracker";
 
 export function BabyScreen() {
   const {id} = useParams();
   const [addEventModalOpen, setAddEventModalOpen] = useState(false);
-  const [{data}] = useQuery({query: GET_BABY, variables: {id}});
+  const [{data}] = useQuery({query: GET_BABY, variables: {id}, context: trackerQueriesContext});
   return (
     <div className="h-screen w-screen flex flex-col">
       <Header className="flex items-start justify-between">
