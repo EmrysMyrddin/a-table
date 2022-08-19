@@ -40,7 +40,6 @@ export function AddMeal() {
 
 export function LastMeal({meal}) {
   const [end, setEnd] = useState(() => new Date())
-  const start = new Date(meal?.date)
   
   useEffect(() => {
     const interval = setInterval(() => setEnd(new Date()), 60_000)
@@ -50,6 +49,10 @@ export function LastMeal({meal}) {
   if (!meal) {
     return <p>Pas encore de repas</p>
   }
+  
+  console.log(meal)
+  
+  const start = new Date(meal?.date)
   
   const timeSinceLastMeal = intervalToDuration({start, end})
   

@@ -19,7 +19,7 @@ export function BabyScreen() {
         <Link to="/babies" className="mr-4 mt-0.5"><BackIcon className="h-9 inline-block rounded-full hover:bg-gray-100"/></Link>
         <div className="flex flex-col items-center">
           <div className="font-bold">{data?.baby?.name}</div>
-          <LastMeal meal={data?.baby?.last_meal} />
+          <LastMeal meal={data?.baby?.last_meal?.[0]} />
         </div>
         <LogoutButton className="justify-self-end" />
       </Header>
