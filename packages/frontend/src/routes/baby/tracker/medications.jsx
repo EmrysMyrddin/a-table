@@ -30,7 +30,7 @@ export function DeleteMedication({id}) {
     }
   `)
   
-  return <button disabled={fetching} onClick={() => window.confirm("Salade bien sûre ?") && deleteMedication({id})}>🗑</button>
+  return <button disabled={fetching} onClick={() => window.confirm("Êtes-vous sûre ?") && deleteMedication({id})}>🗑</button>
 }
 
 export function Medication({event}) {

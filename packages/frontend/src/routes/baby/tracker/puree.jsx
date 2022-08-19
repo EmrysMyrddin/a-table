@@ -37,7 +37,7 @@ export function DeletePuree({id}) {
     }
   `)
   
-  return <button disabled={fetching} onClick={() => window.confirm("Salade bien sûre ?") && deletePuree({id})}>🗑</button>
+  return <button disabled={fetching} onClick={() => window.confirm("Êtes-vous sûre ?") && deletePuree({id})}>🗑</button>
 }
 
 export function Puree({event}) {

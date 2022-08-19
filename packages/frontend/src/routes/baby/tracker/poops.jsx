@@ -35,7 +35,7 @@ export function DeletePoop({id}) {
     }
   `)
   
-  return <button disabled={fetching} onClick={() => window.confirm("Salade bien sûre ?") && deletePoop({id})}>🗑</button>
+  return <button disabled={fetching} onClick={() => window.confirm("Êtes-vous sûre ?") && deletePoop({id})}>🗑</button>
 }
 
 export function Poop({event}) {
