@@ -9,14 +9,15 @@ import {Small} from "../components/text";
 import {AddEventModal} from "../components/add-event-modal";
 import {LastMeal} from "./baby/tracker/meals";
 import {formatNumber} from "../utils";
+import {trackerQueriesContext} from "./baby/tracker/tracker";
 
 export function BabyChoiceScreen() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [updatingBaby, setUpdatingBaby] = useState(null);
   const [addingEvent, setAddingEvent] = useState(null);
-  const [{data, fetching}] = useQuery({query: LIST_BABIES_QUERY})
+  const [{data}] = useQuery({query: LIST_BABIES_QUERY, context: trackerQueriesContext});
   
-  if(fetching) return <p className="text-center p-4"><Small>Chargement en cours</Small></p>
+  if(!data) return <p className="text-center p-4"><Small>Chargement en cours</Small></p>
   
   return (
     <>
