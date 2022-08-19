@@ -1,4 +1,4 @@
-DROP FUNCTION register_user(username text, password text);
+DROP FUNCTION IF EXISTS register_user(username text, password text);
 CREATE OR REPLACE FUNCTION public.register_user(username text, password text)
  RETURNS jwt
  LANGUAGE sql
