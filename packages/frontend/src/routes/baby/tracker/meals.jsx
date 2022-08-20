@@ -50,8 +50,6 @@ export function LastMeal({meal}) {
     return <p>Pas encore de repas</p>
   }
   
-  console.log(meal)
-  
   const start = new Date(meal?.date)
   
   const timeSinceLastMeal = intervalToDuration({start, end})

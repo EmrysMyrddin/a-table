@@ -20,7 +20,6 @@ export function RegisterScreen() {
     <AuthScreen
       onSubmit={async form => {
       setError(null)
-      console.log(form.password.value, form.username.value, form.passwordConfirm.value, form)
       if (form.password.value !== form.passwordConfirm.value) {
         setError("Les mots de passe ne correspondent pas.")
         return

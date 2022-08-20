@@ -4,7 +4,6 @@ import FastifyStatic from 'fastify-static'
 import {assistantHandler} from "./handlers.js";
 
 const buildPath = path.join(process.cwd(), '../frontend/build')
-console.log(buildPath)
 
 const app = Fastify({
   logger: true,

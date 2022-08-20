@@ -10,35 +10,24 @@ import {AddEventModal} from "../components/add-event-modal";
 import {LastMeal} from "./baby/tracker/meals";
 import {formatNumber} from "../utils";
 import {trackerQueriesContext} from "./baby/tracker/tracker";
+import {format} from "date-fns";
 
 export function BabyChoiceScreen() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [updatingBaby, setUpdatingBaby] = useState(null);
   const [addingEvent, setAddingEvent] = useState(null);
-  const [{data}] = useQuery({query: LIST_BABIES_QUERY, context: trackerQueriesContext});
+  const [{data}] = useQuery({query: LIST_BABIES_QUERY});
   
   if(!data) return <p className="text-center p-4"><Small>Chargement en cours</Small></p>
   
   return (
     <>
       {data?.babies?.map(baby => {
-        const {daily_stats: [stats]} = baby
         return (
           <Card to={`/babies/${baby.id}/tracker`} key={baby.id}>
             <Card.Body>
               <Card.Title>{baby.name}</Card.Title>
-        
-              <div className="text-center"><LastMeal meal={baby.last_meal?.[0]}/></div>
-              <div className="flex gap-2 items-center justify-around mt-4 text-sm">
-                <div>{stats?.meals_sum ?? 0}<Small> ml</Small></div>
-                <div>{stats?.meals_count ?? 0} <Small> biberons</Small></div>
-                <div>{formatNumber(stats?.meals_avg) ?? 0}<Small> ml moy.</Small></div>
-              </div>
-              <div className="flex gap-2 items-center justify-around mb-2 text-sm">
-                <div>{stats?.purees_sum ?? 0}<Small> g</Small></div>
-                <div>{stats?.purees_count ?? 0}<Small> pots</Small></div>
-                <div>{formatNumber(stats?.purees_avg) ?? 0}<Small> g moy.</Small></div>
-              </div>
+              <TodayStats babyId={baby.id} />
             </Card.Body>
             <Card.Actions>
               <Card.Action onClick={() => setUpdatingBaby(baby)}>✏️ Renommer</Card.Action>
@@ -54,6 +43,27 @@ export function BabyChoiceScreen() {
       {addingEvent && <AddEventModal baby={addingEvent} close={() => setAddingEvent(null)}/>}
       
       <FloatingButton onClick={() => setCreateModalOpen(true)}>＋</FloatingButton>
+    </>
+  )
+}
+
+function TodayStats({babyId}) {
+  const [{data}] = useQuery({query: TODAY_STATS_QUERY, variables: { babyId }, context: trackerQueriesContext})
+  const stats = data?.baby?.daily_stats?.[0]
+  const lastMeal = data?.baby?.last_meal?.[0]
+  return (
+    <>
+      <div className="text-center"><LastMeal meal={lastMeal}/></div>
+      <div className="flex gap-2 items-center justify-around mt-4 text-sm">
+        <div>{stats?.meals_sum || '-'}<Small> ml</Small></div>
+        <div>{stats?.meals_count || '-'} <Small> biberons</Small></div>
+        <div>{stats?.meals_avg ? formatNumber(stats?.meals_avg) : '-'}<Small> ml moy.</Small></div>
+      </div>
+      <div className="flex gap-2 items-center justify-around mb-2 text-sm">
+        <div>{stats?.purees_sum || '-'}<Small> g</Small></div>
+        <div>{stats?.purees_count || '-'}<Small> pots</Small></div>
+        <div>{stats?.purees_avg ? formatNumber(stats?.purees_avg) : '-'}<Small> g moy.</Small></div>
+      </div>
     </>
   )
 }
@@ -127,6 +137,14 @@ const LIST_BABIES_QUERY = /* GraphQL */ `
   query listBabies {
     babies {
       id, name
+    }
+  }
+`
+
+const TODAY_STATS_QUERY = /* GraphQL */ `
+  query todayStats($babyId: uuid!) {
+    baby: babies_by_pk(id: $babyId) {
+      id,
       daily_stats(order_by: { day: desc }, limit: 1) {
         meals_sum, meals_avg, meals_count, purees_avg, purees_sum, purees_count
       }
