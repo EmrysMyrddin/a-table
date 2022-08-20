@@ -1,6 +1,6 @@
 import {useQuery} from "urql";
 import {Navigate, Outlet} from "react-router-dom";
-import {createContext, useContext} from "react";
+import {createContext, useContext, useEffect} from "react";
 
 const AuthContext = createContext(null)
 
@@ -14,6 +14,12 @@ export function WithAuth() {
       }
     `,
   })
+  
+  useEffect(() => {
+    if(error) {
+      localStorage.removeItem("token")
+    }
+  }, [])
   
   if (error) {
     return <Navigate to="/login" replace />
