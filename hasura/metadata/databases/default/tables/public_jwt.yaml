@@ -12,3 +12,8 @@ select_permissions:
         - token
       filter: {}
       limit: 1
+  - role: user
+    permission:
+      columns:
+        - token
+      filter: {}

@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useMutation} from "urql";
 import {toast} from "react-toastify";
 import {Input} from "../components/input";
@@ -15,6 +15,10 @@ export function RegisterScreen() {
       }
     }
   `)
+  
+  useEffect(() => {
+    if (localStorage.getItem("token")) navigate("/babies/")
+  }, [])
   
   return (
     <AuthScreen

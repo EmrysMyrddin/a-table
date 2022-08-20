@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useMutation} from "urql";
 import {Input} from "../components/input";
 import {AuthScreen} from "../components/auth-screen";
+import {useEffect} from "react";
 
 export function LoginScreen() {
   const navigate = useNavigate();
@@ -13,6 +14,9 @@ export function LoginScreen() {
     }
   `)
   
+  useEffect(() => {
+    if (localStorage.getItem("token")) navigate("/babies/")
+  }, [])
   
   return (
     <AuthScreen
