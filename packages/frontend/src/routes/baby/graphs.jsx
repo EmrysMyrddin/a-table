@@ -83,9 +83,6 @@ function DailySumGraph({ mealsByDate, smoothSpan }) {
         data={data}
         yFormat=">-.0f"
         yScale={{type: 'linear', min: 'auto'}}
-        markers={[
-          {axis: 'y', value: maxTarget(new Date()), lineStyle: { stroke: '#59b225' }, legend: 'objectif'}
-        ]}
       />
     </div>
   )
